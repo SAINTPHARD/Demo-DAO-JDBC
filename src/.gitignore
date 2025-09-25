@@ -1,0 +1,15 @@
+# Arquivos compilados do Java
+bin/
+*.class
+
+# Arquivos de metadados do Eclipse
+.classpath
+.project
+.settings/
+
+# Arquivos de log e temporários
+*.log
+tmp/
+
+# Arquivo de propriedades com senhas
+db.properties
