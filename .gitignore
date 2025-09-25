@@ -1,4 +1,4 @@
-# Arquivos compilados do Java
+# Arquivos de compilação do Java
 bin/
 *.class
 
@@ -7,9 +7,15 @@ bin/
 .project
 .settings/
 
-# Arquivos de log e temporários
+# Arquivos de log e logs de crash da JVM
 *.log
-tmp/
+hs_err_pid*
+replay_pid*
+
+# Arquivos de pacotes (geralmente não devem ser versionados)
+*.jar
+*.war
+*.ear
 
 # Arquivo de propriedades com senhas
 db.properties
