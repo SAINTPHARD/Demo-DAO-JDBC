@@ -2,7 +2,7 @@ package model.entities;
 
 import java.io.Serializable; // Importar a interface Serializable para permitir a serialização do objeto
 
-public class Departement implements Serializable {
+public class Department implements Serializable {
 
 	/**
 	 * 
@@ -13,11 +13,11 @@ public class Departement implements Serializable {
 	private String name;
 	
 	// Construtores padrao sem argumentos
-	public Departement() {
+	public Department() {
 	}
 	
 	// Construtores com argumentos
-	public Departement(Integer id, String name) {
+	public Department(Integer id, String name) {
 		this.id = id;
 		this.name = name;
 	}
@@ -56,7 +56,7 @@ public class Departement implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Departement other = (Departement) obj;
+		Department other = (Department) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
