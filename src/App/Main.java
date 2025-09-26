@@ -1,59 +1,62 @@
 package App;
 
+// Importa a classe LocalDate para representar datas (nascimento do vendedor)
 import java.time.LocalDate;
+
+// Importa as classes Department e Seller do pacote model.entities
 import model.entities.Department;
 import model.entities.Seller;
 
-/**
- * Classe principal para demonstrar a criação e manipulação de objetos de entidade.
- */
 public class Main {
 
-    /**
-     * Ponto de entrada da aplicação.
-     * @param args Argumentos da linha de comando (não utilizados).
-     */
     public static void main(String[] args) {
         
-        // --- ETAPA 1: CRIAÇÃO DO OBJETO DEPARTMENT ---
-        System.out.println("--- Criando objeto Department ---");
-        // Instancia um objeto Department com ID 1 e nome "Pens".
+        // -----------------------------------------------------
+        // 1. Criando um objeto Department
+        // -----------------------------------------------------
+        // O construtor do Department recebe (id, nome)
         Department department = new Department(1, "Pens");
-        // Imprime o objeto Department usando seu método toString().
-        System.out.println(department);
-        System.out.println("---------------------------------");
         
-        System.out.println("\n--- Criando objeto Seller ---");
-        // --- ETAPA 2: CRIAÇÃO DO OBJETO SELLER ---
-        // Instancia um objeto Seller, associando-o ao objeto Department criado anteriormente.
+        // Exibe o departamento criado (usa o método toString da classe Department)
+        System.out.println("Departamento criado: " + department);
+        
+        
+        // -----------------------------------------------------
+        // 2. Criando um objeto Seller (vendedor)
+        // -----------------------------------------------------
+        // O construtor do Seller recebe:
+        // (id, nome, email, dataNascimento, salarioBase, departamento)
         Seller seller = new Seller(
-                1,                          // id
-                "Bob",                      // name
-                "bob@gmail.com",            // email
-                LocalDate.of(1998, 9, 21),  // birthDate (usando uma data específica)
-                3000.0,                     // baseSalary
-                department                  // department
+                1,                          // Identificador único do vendedor
+                "Bob",                      // Nome
+                "bob@gmail.com",            // Email
+                LocalDate.of(1998, 9, 21),  // Data de nascimento (21/09/1998)
+                3000.0,                     // Salário base
+                department                  // Departamento associado
         );
-        System.out.println("Objeto Seller criado com sucesso.");
-        System.out.println("-----------------------------");
+        
+        
+        // -----------------------------------------------------
+        // 3. Exibindo informações detalhadas do vendedor
+        // -----------------------------------------------------
+        // Aqui usamos os getters para acessar os dados individuais.
+        // Isso é útil quando queremos mostrar informações específicas
+        // de forma organizada.
+        System.out.println("\n--- Detalhes do Vendedor ---");
+        System.out.println("ID: " + seller.getId());
+        System.out.println("Nome: " + seller.getName());
+        System.out.println("Email: " + seller.getEmail());
+        System.out.println("Data de Nascimento: " + seller.getBirthDate());
+        System.out.println("Salário Base: " + seller.getBaseSalary());
+        System.out.println("Departamento: " + seller.getDepartment().getName());
 
         
-        // --- ETAPA 3: EXIBIÇÃO EXPLÍCITA DOS DADOS DO SELLER ---
-        // Acessando e imprimindo cada atributo do objeto Seller individualmente
-        // para demonstrar como os métodos getters funcionam.
-        System.out.println("\n--- Detalhes explícitos do Vendedor ---");
-        System.out.println("Acessando com s.getId(): " + seller.getId());
-        System.out.println("Acessando com s.getName(): " + seller.getName());
-        System.out.println("Acessando com s.getEmail(): " + seller.getEmail());
-        System.out.println("Acessando com s.getBirthDate(): " + seller.getBirthDate());
-        System.out.println("Acessando com s.getBaseSalary(): " + seller.getBaseSalary());
-        // Note como acessamos o nome do departamento através do objeto Department aninhado.
-        System.out.println("Acessando com s.getDepartment().getName(): " + seller.getDepartment().getName());
-        System.out.println("---------------------------------------");
-        
-        // Imprime o objeto Seller completo usando o método toString() da classe Seller.
-        System.out.println("\n--- Impressão do objeto Seller via toString() ---");
-        System.out.println(seller);
-        System.out.println("---------------------------------------------");
+        // -----------------------------------------------------
+        // 4. Exibindo o objeto completo
+        // -----------------------------------------------------
+        // Aqui chamamos diretamente o objeto "seller".
+        // O Java automaticamente usa o método toString()
+        // da classe Seller para imprimir todos os dados de forma resumida.
+        System.out.println("\nRepresentação completa do objeto: " + seller);
     }
 }
