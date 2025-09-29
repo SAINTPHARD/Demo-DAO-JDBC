@@ -1,9 +1,11 @@
 package App;
 
+// Importa a classe LocalDate para representar datas (nascimento do vendedor)
 import java.time.LocalDate;
-import db.DbException; // Import necessário para o tratamento de exceção
+
 import model.dao.DaoFactory;
 import model.dao.SellerDao;
+// Importa as classes Department e Seller do pacote model.entities
 import model.entities.Department;
 import model.entities.Seller;
 
@@ -11,54 +13,71 @@ public class Main2 {
 
     public static void main(String[] args) {
         
-        // --- 1. Preparação dos Objetos em Memória ---
+        // -----------------------------------------------------
+        // 1. Criando um objeto Department
+        // -----------------------------------------------------
+        // O construtor do Department recebe (id, nome)
+        Department department = new Department(1, "Pens");
         
-        // Cria um objeto Department.
-        // IMPORTANTE: Este departamento (com Id=1) já deve existir na sua tabela 'department'.
-        Department department = new Department(1, "Computers"); // Usando "Computers" como exemplo
+        // Exibe o departamento criado (usa o método toString da classe Department)
+        System.out.println("Departamento criado: " + department);
         
-        // Cria um novo objeto Seller para ser inserido no banco.
-        // CORRIGIDO: O Id para um novo vendedor deve ser 'null', pois o banco de dados irá gerá-lo.
+        
+        // -----------------------------------------------------
+        // 2. Criando um objeto Seller (vendedor local)
+        // -----------------------------------------------------
+        // Este objeto 'seller' é criado apenas na memória
         Seller seller = new Seller(
-                null,                       // Id é nulo para inserção
+                1,                          // Identificador único do vendedor
                 "Bob",                      // Nome
                 "bob@gmail.com",            // Email
-                LocalDate.of(1998, 9, 21),  // Data de nascimento
+                LocalDate.of(1998, 9, 21),  // Data de nascimento (21/09/1998)
                 3000.0,                     // Salário base
                 department                  // Departamento associado
         );
         
-        // --- 2. Interação com o Banco de Dados (dentro de um try-catch) ---
         
-        // CORRIGIDO: Operações de banco de dados devem estar dentro de um bloco try-catch.
-        try {
-            // Cria a implementação do DAO através da fábrica.
-            SellerDao sellerDao = DaoFactory.createSellerDao();
-            
-            System.out.println("=== TESTE: Inserindo um novo vendedor ===");
-            
-            // Tenta inserir o novo vendedor no banco de dados.
-            sellerDao.insert(seller);
-            
-            // Se a inserção funcionar, o objeto 'seller' agora terá o ID gerado pelo banco.
-            System.out.println("Inserção concluída! Novo ID gerado = " + seller.getId());
+        // -----------------------------------------------------------------
+        // 3. Testando o DAO: Conexão e Busca no Banco de Dados (findById)
+        // -----------------------------------------------------------------
+        
+        // 3.1. Cria o objeto de acesso a dados (DAO)
+        SellerDao sellerDao = DaoFactory.createSellerDao();
 
-        } 
-        catch (DbException e) {
-            // Captura qualquer erro de banco de dados que possa ter ocorrido.
-            System.err.println("Erro ao inserir vendedor: " + e.getMessage());
-            e.printStackTrace(); // Útil para depuração
-        }
+        // 3.2. Executa a busca no banco de dados
+        // A variável que armazena o resultado da busca deve ser do tipo 'Seller'
+        Seller sellerBusca = sellerDao.findById(3); 
+    	
+    	// Exibe o vendedor encontrado no DB
+    	System.out.println("\n--- Busca por ID (DB) ---");
+    	// System.out.println("Vendedor ID 3 encontrado no Banco de Dados: " + "" + sellerBusca); 
+    	
+    	// Formatação multilinha usando os getters do objeto sellerBusca e tabs (\t)
+    	System.out.println("Seller [id=" + sellerBusca.getId() + ","); 
+    	System.out.println(" name=" + sellerBusca.getName() + ","); 
+    	System.out.println(" email=" + sellerBusca.getEmail() + ",");
+    	System.out.println(" birthDate=" + sellerBusca.getBirthDate() + ","); 
+    	System.out.println(" baseSalary=" + sellerBusca.getBaseSalary() + ",");
+    	// A última linha contém o Department.toString()
+    	System.out.println(" department=" + sellerBusca.getDepartment() + "]]"); 
         
-        // --- 3. Exibindo informações do objeto Seller em memória ---
-        
-        System.out.println("\n--- Detalhes do Objeto Seller ---");
-        // CORRIGIDO: Usando a variável correta 'seller' em todas as chamadas.
+        // -----------------------------------------------------
+        // 4. Exibindo informações detalhadas do vendedor local
+        // -----------------------------------------------------
+        // Aqui usamos o objeto 'seller' (o Bob) criado na memória.
+        System.out.println("\n--- Detalhes do Vendedor (Objeto Local) ---");
         System.out.println("ID: " + seller.getId());
         System.out.println("Nome: " + seller.getName());
         System.out.println("Email: " + seller.getEmail());
         System.out.println("Data de Nascimento: " + seller.getBirthDate());
         System.out.println("Salário Base: " + seller.getBaseSalary());
         System.out.println("Departamento: " + seller.getDepartment().getName());
+
+        
+        // -----------------------------------------------------
+        // 5. Exibindo o objeto completo (usando toString)
+        // -----------------------------------------------------
+        // Aqui chamamos diretamente o objeto "seller".
+        System.out.println("\nRepresentação completa do objeto local: " + seller);
     }
 }
