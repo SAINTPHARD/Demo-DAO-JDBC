@@ -3,6 +3,8 @@ package App;
 // Importa a classe LocalDate para representar datas (nascimento do vendedor)
 import java.time.LocalDate;
 
+import model.dao.DaoFactory;
+import model.dao.SellerDao;
 // Importa as classes Department e Seller do pacote model.entities
 import model.entities.Department;
 import model.entities.Seller;
@@ -35,6 +37,10 @@ public class Main {
                 department                  // Departamento associado
         );
         
+     // --- Insere o vendedor no banco de dados e tratando possiveis erros ---
+		SellerDao sellerDao = DaoFactory.createSellerDao(); // Cria o SellerDao usando a fábrica
+		
+		// esta parte do código não está se encontar no Main2.java
         
         // -----------------------------------------------------
         // 3. Exibindo informações detalhadas do vendedor
