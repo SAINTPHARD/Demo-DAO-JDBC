@@ -126,3 +126,5 @@ public class Seller implements Serializable {
 				+ "]";
 	}
 }
+
+// -- Adiciona quebras de linha e tabulações (\n e \t) no Seller para exibir cada atributo em uma linha separada.
