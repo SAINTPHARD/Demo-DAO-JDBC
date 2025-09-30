@@ -11,7 +11,8 @@ public class Main {
     	
     	SellerDao sellerDao = DaoFactory.createSellerDao(); // Cria o SellerDao usando a fábrica
     	
-    	// LINHA CORRIGIDA: Agora a variável é do tipo Seller
+    	// Teste 1: Buscar um vendedor por ID
+    	System.out.println("\n--- Teste 1: seller findById ---");
     	Seller seller = sellerDao.findById(3); // Busca o vendedor com ID 3 no banco de dados
     	
     	System.out.println(seller); // Exibe os detalhes do vendedor encontrado

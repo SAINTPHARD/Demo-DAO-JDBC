@@ -48,16 +48,26 @@ public class SellerDaoJDBC implements SellerDao {
 					+ "ON seller.DepartmentId = department.Id "
 					+ "WHERE seller.Id = ?");
 			
-			st.setInt(1, id);
+			st.setInt(1, id);  
 			rs = st.executeQuery();
-			
 			if (rs.next()) {
+				// Instancia o Department e logo abaixo criar o método no 1.2
+				Department dep = instantiateDepartment(rs); // Usando método auxiliar
+				// Instancia o Seller e associa o Department
+				Seller obj = instantiateSeller(rs, dep); // Usando método auxiliar
+				return (Seller) obj;
 				
-				// 1. Instancia o Department
+				/**
+				// 1. Instancia o Department (Numeo 1.--
 				Department dep = new Department(); 
 				dep.setId(rs.getInt("DepartmentId"));
 				dep.setName(rs.getString("DepName"));
+				=== Comentar este trecho para poder instancia a classe Department ===
+				*/
 				
+				
+				
+				/**
 				// 2. Instancia o Seller e associa o Department
 				Seller obj = new Seller();
 				obj.setId(rs.getInt("Id"));
@@ -69,18 +79,41 @@ public class SellerDaoJDBC implements SellerDao {
 				obj.setDepartment(dep);
 				
 				return obj;
+				=== Comentar este trecho para poder instancia a classe Seller ===
+				*/
+				
 			}
 			return null;
 		}
 		catch (SQLException e) {
-			// Tratamento específico para exceções de banco de dados
-			throw new DbException(e.getMessage()); 
+			throw new DbException(e.getMessage());  // Tratamento específico para exceções de banco de dados
 		}
 		finally {
 			DB.closeResultSet(rs); // Assumindo método auxiliar DB.closeResultSet(rs) // Fecha o ResultSet
 			DB.closeStatement(st); // Assumindo método auxiliar DB.closeStatement(st)
 			// A conexão (conn) NÃO é fechada aqui, pois é injetada e pode ser usada em outras operações
 		}
+	}
+
+	private Seller instantiateSeller(ResultSet rs, Department dep) throws SQLException {
+		Seller obj = new Seller();
+		obj.setId(rs.getInt("Id"));
+		obj.setName(rs.getString("Name"));
+		obj.setEmail(rs.getString("Email"));
+		obj.setBaseSalary(rs.getDouble("BaseSalary"));
+		// Converte java.sql.Date para java.time.LocalDate (API moderna de datas).
+		obj.setBirthDate(rs.getDate("BirthDate").toLocalDate()); 
+		obj.setDepartment(dep);
+		return obj; 
+	}
+
+	// 1.2 Método auxiliar para instanciar um Department a partir do ResultSet
+	private Department instantiateDepartment(ResultSet rs) throws SQLException { 
+		Department dep = new Department();
+		dep.setId(rs.getInt("DepartmentId"));
+		dep.setName(rs.getString("DepName"));
+		return dep;
+
 	}
 
 	@Override

@@ -102,9 +102,27 @@ public class Seller implements Serializable {
         return Objects.equals(id, other.id);
     }
 
+    /**
     @Override
     public String toString() {
         return "Seller [id=" + id + ", name=" + name + ", email=" + email + ", birthDate=" + birthDate
                 + ", baseSalary=" + baseSalary + ", department=" + department + "]";
     }
+    */
+    
+    /**
+	 * Sobrescreve o método toString() para formatar a saída do Seller em múltiplas linhas.
+	 * Nota: O 'toString()' do Department será chamado para formatar o objeto Department.
+	 */
+	@Override
+	public String toString() {
+		return "Seller [\n"
+				+ "\tid=" + id + ",\n" 
+				+ "\tname=" + name + ",\n"
+				+ "\temail=" + email + ",\n"
+				+ "\tbirthDate=" + birthDate + ",\n" 
+				+ "\tbaseSalary=" + baseSalary + ",\n"
+				+ "\tdepartment=" + department + "\n" // Chama o toString() do Department
+				+ "]";
+	}
 }

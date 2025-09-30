@@ -66,9 +66,10 @@ public class Department implements Serializable {
 	}
 	
 	// Implementar o toString
+	// Sobrescreve o método toString para exibir os detalhes do departamento
 	@Override
 	public String toString() {
-		return "Departement [id=" + id + ", name=" + name + "]";
+		return "Departement [" + "id=" + id + ", name=" + name + "]";
 	}
 	
 	// Fim da classe

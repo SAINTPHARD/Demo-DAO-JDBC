@@ -14,4 +14,3 @@ public interface DepartmentDao {
 	List<Department> findAll(); // Busca todos os departamentos
 
 }
-
