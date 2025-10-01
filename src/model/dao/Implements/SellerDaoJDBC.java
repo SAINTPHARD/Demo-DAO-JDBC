@@ -65,6 +65,7 @@ public class SellerDaoJDBC implements SellerDao {
 		}
 	}
     
+	// Implementação do findByDepartment usando Map para otimização
 	@Override
 	public List<Seller> findByDepartment(Department department) { 
 		
@@ -106,12 +107,13 @@ public class SellerDaoJDBC implements SellerDao {
 		}
 	}
 
+	// Implementação do findAll usando Map para otimização
 	@Override
 	public List<Seller> findAll() {
 		// A implementação do findAll DEVE usar o Map, pois retorna todos os departamentos
 		try (PreparedStatement st = conn.prepareStatement(
-					"SELECT seller.*,department.Name as DepName "
-					+ "FROM seller INNER JOIN department "
+					"SELECT seller.*,department.Name as DepName " // Selecionar para o nome do departamento
+					+ "FROM seller INNER JOIN department " // Junção com a tabela department
 					+ "ON seller.DepartmentId = department.Id "
 					+ "ORDER BY Name")) {
 			
@@ -163,7 +165,6 @@ public class SellerDaoJDBC implements SellerDao {
 
 	@Override
 	public List<Seller> findByDepartment(Integer departmentId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }
