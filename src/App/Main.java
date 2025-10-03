@@ -109,19 +109,22 @@ public class Main {
     	}
     	
     	
-    	// --- TESTE 6: Exclusão (Delete) ---
+    	// --- TESTE 6: --- IMPLEMENTAÇÃO DO DELETE ---
 		System.out.println("\n=== TESTE 6: seller deleteById (Excluir Vendedor por ID) ===");
-		int idToDelete = 7; // ID do vendedor a ser deletado/Exluido
+		int idToDelete = 8; // ID do vendedor a ser deletado/Exluido
 		sellerDao.deleteById(idToDelete);
 		System.out.println("Exclusaõ/Deletar concluída para o ID " + idToDelete + "(se existia).");
 		
 		// Verifica a deleção tentando buscar o vendedor deletado
+		System.out.println("Verificando se o vendedor com ID " + idToDelete + " foi realmente deletado...");
 		Seller deletedSeller = sellerDao.findById(idToDelete); // declara a variável para verificação de exclusão
+		
 		if (deletedSeller == null) {
 			System.out.println("Verificação: Vendedor com ID " + idToDelete + " não encontrado (deletado com sucesso).");
 		} else {
 			System.out.println("Verificação: Vendedor com ID " + idToDelete + " ainda existe: " + deletedSeller);
 		}
+		
 		
 		// --- TESTE 7: Implementação  e Test de departmentDao---
 		System.out.println("\n=== TESTE 7: departmentDao (Testando DepartmentDao) ===");

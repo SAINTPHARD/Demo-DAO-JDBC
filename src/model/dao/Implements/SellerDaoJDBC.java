@@ -89,11 +89,11 @@ public class SellerDaoJDBC implements SellerDao {
 	}
 
 	// ==========================
-	// DELETE (Versão Estrita)
+	// --- IMPLEMENTAÇÃO DO DELETE ---
 	// ==========================
 	@Override
 	public void deleteById(Integer id) {
-		String sql = "DELETE FROM seller WHERE Id = ?";
+		String sql = "DELETE FROM seller WHERE Id = ?"; // SQL para deletar o vendedor com o ID especificado
 
 		try (PreparedStatement st = conn.prepareStatement(sql)) {
 			st.setInt(1, id);
