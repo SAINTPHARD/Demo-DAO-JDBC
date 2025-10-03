@@ -59,14 +59,14 @@ public class Main {
     	Department newDep = new Department(1, null); // Associa ao Departamento ID 1
     	Seller newSeller = new Seller(
     			null, 
-    			"Gilberto Silva", 
-    			"gilberto@test.com", 
+    			"Robedson SAINTPHARD", 
+    			"robedson-@test.com", 
     			LocalDate.of(2000, 10, 10), 
     			3500.0, 
     			newDep
     	);
     	
-    	// Insere o novo vendedor no banco de dados
+    	// Insere o novo vendedor no banco de dados e obtém o ID gerado
     	sellerDao.insert(newSeller);
     	System.out.println("Vendedor inserido! Novo ID: " + newSeller.getId());
     	
@@ -79,5 +79,55 @@ public class Main {
     	} else {
     		System.out.println("ERRO: O ID do vendedor não foi gerado pelo banco de dados.");
     	}
+    	
+    	// --- TESTE 5: Atualização (Update) ---
+    	System.out.println("\n=== TESTE 5: Atualização de Vendedor (Update) ===");
+
+    	// 1. Busca o vendedor com base no ID para poder atualizá-lo.
+    	Seller vendedorParaAtualizar = sellerDao.findById(1);
+
+    	// 2. Verifica se o objeto vendedor foi encontrado antes de prosseguir.
+    	if (vendedorParaAtualizar != null) {
+    	    System.out.println("Vendedor a ser atualizado: " + vendedorParaAtualizar);
+    	    
+    	    // 3. Altera os valores dos atributos do objeto em memória.
+    	    vendedorParaAtualizar.setName("Martha Joao"); // Define um novo nome.
+    	    vendedorParaAtualizar.setEmail("martha.waine@gmail.com"); // Define um novo e-mail.
+    	    
+    	    // 4. Executa a atualização no banco de dados.
+    	    sellerDao.update(vendedorParaAtualizar);
+    	    
+    	    System.out.println("Atualização concluída com sucesso!");
+    	    
+    	    // 5. (Opcional) Busca novamente o vendedor para confirmar a alteração.
+    	    Seller vendedorAtualizado = sellerDao.findById(1);
+    	    System.out.println("Dados confirmados após atualização: " + vendedorAtualizado);
+    	    
+    	} else {
+    	    // Caso o ID não seja encontrado no banco de dados.
+    	    System.out.println("Falha na atualização: Vendedor com ID 1 não foi encontrado.");
+    	}
+    	
+    	
+    	// --- TESTE 6: Exclusão (Delete) ---
+		System.out.println("\n=== TESTE 6: seller deleteById (Excluir Vendedor por ID) ===");
+		int idToDelete = 7; // ID do vendedor a ser deletado/Exluido
+		sellerDao.deleteById(idToDelete);
+		System.out.println("Exclusaõ/Deletar concluída para o ID " + idToDelete + "(se existia).");
+		
+		// Verifica a deleção tentando buscar o vendedor deletado
+		Seller deletedSeller = sellerDao.findById(idToDelete); // declara a variável para verificação de exclusão
+		if (deletedSeller == null) {
+			System.out.println("Verificação: Vendedor com ID " + idToDelete + " não encontrado (deletado com sucesso).");
+		} else {
+			System.out.println("Verificação: Vendedor com ID " + idToDelete + " ainda existe: " + deletedSeller);
+		}
+		
+		// --- TESTE 7: Implementação  e Test de departmentDao---
+		System.out.println("\n=== TESTE 7: departmentDao (Testando DepartmentDao) ===");
+		
+		
+		// Finaliza o programa
+		System.out.println("\n=== FIM DOS TESTES ===");
     }
 }

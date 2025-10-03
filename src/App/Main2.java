@@ -1,11 +1,11 @@
 package App;
 
-// Importa a classe LocalDate para representar datas (nascimento do vendedor)
 import java.time.LocalDate;
+import java.util.List;
 
 import model.dao.DaoFactory;
+import model.dao.DepartmentDao;
 import model.dao.SellerDao;
-// Importa as classes Department e Seller do pacote model.entities
 import model.entities.Department;
 import model.entities.Seller;
 
@@ -14,70 +14,93 @@ public class Main2 {
     public static void main(String[] args) {
         
         // -----------------------------------------------------
-        // 1. Criando um objeto Department
+        // 1. Criando e exibindo um Department
         // -----------------------------------------------------
-        // O construtor do Department recebe (id, nome)
         Department department = new Department(1, "Pens");
-        
-        // Exibe o departamento criado (usa o método toString da classe Department)
         System.out.println("Departamento criado: " + department);
-        
-        
-        // -----------------------------------------------------
-        // 2. Criando um objeto Seller (vendedor local)
-        // -----------------------------------------------------
-        // Este objeto 'seller' é criado apenas na memória
-        Seller seller = new Seller(
-                1,                          // Identificador único do vendedor
-                "Bob",                      // Nome
-                "bob@gmail.com",            // Email
-                LocalDate.of(1998, 9, 21),  // Data de nascimento (21/09/1998)
-                3000.0,                     // Salário base
-                department                  // Departamento associado
-        );
-        
-        
-        // -----------------------------------------------------------------
-        // 3. Testando o DAO: Conexão e Busca no Banco de Dados (findById)
-        // -----------------------------------------------------------------
-        
-        // 3.1. Cria o objeto de acesso a dados (DAO)
-        SellerDao sellerDao = DaoFactory.createSellerDao();
 
-        // 3.2. Executa a busca no banco de dados
-        // A variável que armazena o resultado da busca deve ser do tipo 'Seller'
-        Seller sellerBusca = sellerDao.findById(3); 
-    	
-    	// Exibe o vendedor encontrado no DB
-    	System.out.println("\n--- Busca por ID (DB) ---");
-    	// System.out.println("Vendedor ID 3 encontrado no Banco de Dados: " + "" + sellerBusca); 
-    	
-    	// Formatação multilinha usando os getters do objeto sellerBusca e tabs (\t)
-    	System.out.println("Seller [id=" + sellerBusca.getId() + ","); 
-    	System.out.println(" name=" + sellerBusca.getName() + ","); 
-    	System.out.println(" email=" + sellerBusca.getEmail() + ",");
-    	System.out.println(" birthDate=" + sellerBusca.getBirthDate() + ","); 
-    	System.out.println(" baseSalary=" + sellerBusca.getBaseSalary() + ",");
-    	// A última linha contém o Department.toString()
-    	System.out.println(" department=" + sellerBusca.getDepartment() + "]]"); 
+        
+        // -----------------------------------------------------
+        // 2. Criando um objeto Seller local (apenas em memória)
+        // -----------------------------------------------------
+        Seller sellerLocal = new Seller(
+                1, 
+                "Bob", 
+                "bob@gmail.com", 
+                LocalDate.of(1998, 9, 21), 
+                3000.0, 
+                department
+        );
+
+        
+        // -----------------------------------------------------
+        // 3. Testando SellerDao (Banco de Dados)
+        // -----------------------------------------------------
+        SellerDao sellerDao = DaoFactory.createSellerDao();
+        
+        System.out.println("\n=== TESTE 1: Seller findById ===");
+        Seller sellerDB = sellerDao.findById(3); 
+        
+        if (sellerDB != null) {
+            System.out.println("Vendedor encontrado no banco:");
+            System.out.printf(
+                "Seller [id=%d, name=%s, email=%s, birthDate=%s, baseSalary=%.2f, department=%s]%n",
+                sellerDB.getId(),
+                sellerDB.getName(),
+                sellerDB.getEmail(),
+                sellerDB.getBirthDate(),
+                sellerDB.getBaseSalary(),
+                sellerDB.getDepartment()
+            );
+        } else {
+            System.out.println("Nenhum vendedor encontrado com ID = 3");
+        }
+
         
         // -----------------------------------------------------
         // 4. Exibindo informações detalhadas do vendedor local
         // -----------------------------------------------------
-        // Aqui usamos o objeto 'seller' (o Bob) criado na memória.
-        System.out.println("\n--- Detalhes do Vendedor (Objeto Local) ---");
-        System.out.println("ID: " + seller.getId());
-        System.out.println("Nome: " + seller.getName());
-        System.out.println("Email: " + seller.getEmail());
-        System.out.println("Data de Nascimento: " + seller.getBirthDate());
-        System.out.println("Salário Base: " + seller.getBaseSalary());
-        System.out.println("Departamento: " + seller.getDepartment().getName());
+        System.out.println("\n=== TESTE 2: Detalhes do Vendedor Local ===");
+        System.out.printf(
+            "ID: %d%nNome: %s%nEmail: %s%nData de Nascimento: %s%nSalário Base: %.2f%nDepartamento: %s%n",
+            sellerLocal.getId(),
+            sellerLocal.getName(),
+            sellerLocal.getEmail(),
+            sellerLocal.getBirthDate(),
+            sellerLocal.getBaseSalary(),
+            sellerLocal.getDepartment().getName()
+        );
 
         
         // -----------------------------------------------------
-        // 5. Exibindo o objeto completo (usando toString)
+        // 5. Exibindo representação completa (toString)
         // -----------------------------------------------------
-        // Aqui chamamos diretamente o objeto "seller".
-        System.out.println("\nRepresentação completa do objeto local: " + seller);
+        System.out.println("\n=== TESTE 3: Representação do Objeto Local ===");
+        System.out.println(sellerLocal);
+
+        
+        // -----------------------------------------------------
+        // 6. Testando CRUD do DepartmentDao
+        // -----------------------------------------------------
+        DepartmentDao depDao = DaoFactory.createDepartmentDao();
+        
+        System.out.println("\n=== TESTE 4: DepartmentDao - Inserir ===");
+        Department newDepartment = new Department(null, "Music");
+        depDao.insert(newDepartment);
+        System.out.println("Inserido! Novo ID = " + newDepartment.getId());
+
+        System.out.println("\n=== TESTE 5: DepartmentDao - Atualizar ===");
+        Department dep = depDao.findById(newDepartment.getId());
+        dep.setName("Instruments");
+        depDao.update(dep);
+        System.out.println("Atualização concluída!");
+
+        System.out.println("\n=== TESTE 6: DepartmentDao - Buscar Todos ===");
+        List<Department> allDeps = depDao.findAll();
+        allDeps.forEach(System.out::println);
+
+        System.out.println("\n=== TESTE 7: DepartmentDao - Deletar ===");
+        depDao.deleteById(newDepartment.getId());
+        System.out.println("Departamento deletado!");
     }
 }
